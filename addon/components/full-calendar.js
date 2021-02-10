@@ -1,10 +1,19 @@
 import Ember from 'ember';
 import layout from '../templates/components/full-calendar';
-import { InvokeActionMixin } from 'ember-invoke-action';
-import { Calendar } from '@fullcalendar/core';
+import {
+  InvokeActionMixin
+} from 'ember-invoke-action';
+import {
+  Calendar
+} from '@fullcalendar/core';
 import deepEqual from 'fast-deep-equal'
 
-const { assign, observer, computed, getOwner } = Ember;
+const {
+  assign,
+  observer,
+  computed,
+  getOwner
+} = Ember;
 
 export default Ember.Component.extend(InvokeActionMixin, {
   /////////////////////////////////////
@@ -27,8 +36,8 @@ export default Ember.Component.extend(InvokeActionMixin, {
     const defaultSchedulerLicenseKey = 'GPL-My-Project-Is-Open-Source';
 
     if (applicationConfig &&
-        applicationConfig.emberFullCalendar &&
-        applicationConfig.emberFullCalendar.schedulerLicenseKey) {
+      applicationConfig.emberFullCalendar &&
+      applicationConfig.emberFullCalendar.schedulerLicenseKey) {
       return applicationConfig.emberFullCalendar.schedulerLicenseKey;
     }
 
@@ -160,8 +169,7 @@ export default Ember.Component.extend(InvokeActionMixin, {
     const calendarEvents = this.getEvents();
 
     const options =
-      assign(
-        {},
+      assign({},
         calendarOptions,
         calendarEvents
       );
@@ -292,7 +300,7 @@ export default Ember.Component.extend(InvokeActionMixin, {
    * Observe the events array for any changes and
    * re-render if changes are detected
    */
-  observeEvents: observer('events.[]', function () {
+  observeEvents: observer('events.[]', function() {
     const events = this.get('events');
     this.get('calendar').batchRendering(() => {
       this.get('calendar').getEvents().forEach(e => e.remove());
@@ -306,16 +314,16 @@ export default Ember.Component.extend(InvokeActionMixin, {
    * Observe the eventSources array for any changes and
    * re-render if changes are detected
    */
-  observeEventSources: observer('eventSources.[]', function () {
-     this.get('calendar').batchRendering(() => {
-       this.get('calendar').getEventSources().forEach(e => e.remove());
+  observeEventSources: observer('eventSources.[]', function() {
+    this.get('calendar').batchRendering(() => {
+      this.get('calendar').getEventSources().forEach(e => e.remove());
 
-       this.get('eventSources').forEach(source => {
-         if (source) {
-           this.get('calendar').addEventSource(source);
-         }
-       });
-     });
+      this.get('eventSources').forEach(source => {
+        if (source) {
+          this.get('calendar').addEventSource(source);
+        }
+      });
+    });
   }),
 
   /**
